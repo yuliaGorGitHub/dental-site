@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 function App() {
   //const [activeUser, setActiveUser] = useState(null);
-  const [activeUser, setActiveUser] = useState({tzeut:"123",pwd: "123", fname:"doctor", doctor: true});
+   const [activeUser, setActiveUser] = useState({tzeut:"123",pwd: "123", fname:"doctor", doctor: true});
   ///const [activeUser, setActiveUser] = useState({tzeut:"1234",pwd: "1234", fname:"client", doctor: false});
  
 const handleLogout = () => setActiveUser(null);
