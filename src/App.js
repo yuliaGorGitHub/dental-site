@@ -1,10 +1,26 @@
 import logo from './logo.svg';
 import './App.css';
+import PersonalArea from './pages/PersonalArea/PersonalArea';
+import { HashRouter, Switch, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage/HomePage';
+import WorkArea from './pages/WorkArea/WorkArea';
 
 function App() {
   return (
     <div className="App">
-      <p>Dental site</p>
+        <HashRouter>
+          <Switch>
+            <Route exact path="/">
+              <HomePage />
+            </Route>
+            <Route exact path="/personal">
+              <PersonalArea />
+            </Route>
+            <Route exact path="/work">
+              <WorkArea />
+            </Route>
+          </Switch>
+        </HashRouter>
     </div>
   );
 }
