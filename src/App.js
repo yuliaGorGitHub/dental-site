@@ -4,9 +4,13 @@ import PersonalArea from './pages/PersonalArea/PersonalArea';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage/HomePage';
 import WorkArea from './pages/WorkArea/WorkArea';
+import DentalNavBar from './components/DentalNavBar';
 
 function App() {
   return (
+
+    <>
+    <DentalNavBar />
     <div className="App">
         <HashRouter>
           <Switch>
@@ -22,6 +26,7 @@ function App() {
           </Switch>
         </HashRouter>
     </div>
+    </>
   );
 }
 
