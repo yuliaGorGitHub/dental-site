@@ -1,11 +1,10 @@
 import { AppBar, Container, HomeIcon, Button, IconButton, Toolbar, List, ListItem, ListItemText } from "@material-ui/core"
 import { Home,  AccessAlarm, ThreeDRotation } from "@material-ui/icons"
 import { makeStyles } from "@material-ui/core/styles"
-import { blue } from "@material-ui/core/colors"
 
 
 function DentalNavBar(props) {
-    const {activeUser,logout} = props; 
+    const {activeUser, onLogout, users} = props; 
 
 
     const useStyles = makeStyles({
@@ -33,7 +32,7 @@ function DentalNavBar(props) {
 
     if (activeUser)
     {
-        if(activeUser.doctor)
+        if(activeUser.isDoctor)
         {
             navLinks = navLinks.concat(
                 { title: `איזור עבודה`, path: `#/work` } );
@@ -62,11 +61,13 @@ function DentalNavBar(props) {
                         </ListItem>
                     </a>
                     ))}
-                    <a href="#/" key="logout" className={classes.linkText} onClick={logout}>
+                    {activeUser ? 
+                    <a href="#/" className={classes.linkText} onClick={onLogout}>
                         <ListItem button>
                         <ListItemText primary="התנתק" />
-                        </ListItem>
-                    </a>
+                        </ListItem> 
+                    </a>  
+                    : null}
                 </List>
                 </Container>
             </Toolbar>

@@ -3,10 +3,12 @@ import "./WorkArea.css"
 
 function WorkArea (props)
 {
-    const {activeUser} = props;
+    const {activeUser, users} = props;
 
-    if(!activeUser)
+
+    if(!activeUser || !activeUser.isDoctor)
         return <Redirect to="/"/>
+
 
     return(
         <>

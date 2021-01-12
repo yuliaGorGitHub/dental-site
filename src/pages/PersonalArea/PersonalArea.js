@@ -3,11 +3,11 @@ import "./PersonalArea.css"
 
 function PersonalArea (props)
 {
-    const {activeUser} = props;
+    const {activeUser, users} = props; 
 
-    if(!activeUser)
+    if(!activeUser )
         return <Redirect to="/"/> 
-           
+
     return(
         <>
            <h1>hi { (activeUser) ? activeUser.fname : ""}</h1>
