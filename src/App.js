@@ -9,6 +9,8 @@ import { useState } from 'react';
 import User from './data/User';
 import ContactUs from './pages/ContactUs/ContactUs';
 import About from './pages/About/About';
+import Appointment from './data/Appointment';
+import Appointments from './pages/Appointments/AppointMents';
 
 function App() {
  const [activeUser, setActiveUser] = useState(null);
@@ -22,6 +24,14 @@ let users = [
    new User("6", "456", "456", "David", "Samual" ,"1994-04-15","m", "055-5555555", "avital@gmail.com","hygienist")
 ]
 
+let appointments = [
+  new Appointment("1", "2005-02-22 12:34:56","1", "", "", "", "2005-02-22 12:34:56"),
+  new Appointment("2", "2005-02-22 14:34:56","1", "", "", "", "2005-02-22 12:34:56"),
+  new Appointment("3", "2005-02-22 12:34:56","4", "", "", "", "2005-02-22 12:34:56"),
+  new Appointment("4", "2005-02-22 12:34:56","6", "", "", "", "2005-02-22 12:34:56"),
+  new Appointment("5", "2005-02-22 13:04:56","4", "", "", "", "2005-02-22 12:34:56"),
+  new Appointment("6", "2005-02-22 13:04:56","6", "", "", "", "2005-02-22 12:34:56"),
+]
 
 
 const handleLogout = () => setActiveUser(null);
@@ -36,6 +46,7 @@ const handleLogin = (logedUser) => setActiveUser(logedUser);
           <Switch>
             <Route exact path="/"><HomePage  activeUser={activeUser} users={users} onLogin={handleLogin}/></Route>
             <Route exact path="/personal"><PersonalArea activeUser={activeUser} users={users}/></Route>
+            <Route exact path="/appointments"><Appointments activeUser={activeUser}/></Route>
             <Route exact path="/work"><WorkArea  activeUser={activeUser} users={users}/></Route>
             <Route exact path="/contactus"><ContactUs activeUser={activeUser}/></Route>
             <Route exact path="/about"><About  activeUser={activeUser}/></Route>

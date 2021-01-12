@@ -26,8 +26,8 @@ function DentalNavBar(props) {
     let navLinks = [
 
         { title: `צור קשר `, path: `#/contactus`},
-        { title: `הצוות הרפואי שלנו`, path: `#/about`}
-      
+        { title: `הצוות הרפואי שלנו`, path: `#/about`},
+        { title: `זימון / ביטול תור`, path: `#/appointments`}
     ]
 
     if (activeUser)
