@@ -18,7 +18,7 @@ function HomePage (props)
 
     if (doRedirect && activeUser)
     {
-        if (activeUser.isDoctor)
+        if (activeUser.job)
             return <Redirect to="/work"/>
         else   
             return <Redirect to="/personal"/>

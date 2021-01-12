@@ -25,14 +25,14 @@ function DentalNavBar(props) {
   
     let navLinks = [
 
-        { title: `צור קשר `, path: `#/`},
-        { title: `הצוות הרפואי שלנו`, path: `#/`}
+        { title: `צור קשר `, path: `#/contactus`},
+        { title: `הצוות הרפואי שלנו`, path: `#/about`}
       
     ]
 
     if (activeUser)
     {
-        if(activeUser.isDoctor)
+        if(activeUser.job)
         {
             navLinks = navLinks.concat(
                 { title: `איזור עבודה`, path: `#/work` } );

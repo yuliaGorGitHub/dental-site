@@ -6,13 +6,13 @@ function WorkArea (props)
     const {activeUser, users} = props;
 
 
-    if(!activeUser || !activeUser.isDoctor)
+    if(!activeUser || !activeUser.job)
         return <Redirect to="/"/>
 
 
     return(
         <>
-            <h1>hi { (activeUser) ? activeUser.fname : "no user"}</h1>
+            <h1>שלום   { (activeUser) ? activeUser.fname : "no user"}</h1>
             <p>Work Area</p>
         </>
     )

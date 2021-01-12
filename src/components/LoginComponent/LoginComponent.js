@@ -47,22 +47,31 @@ function LoginComponent (props)
     const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
     const useStyles = makeStyles((theme) => ({
-    container: {
-        padding: theme.spacing(3),
-        border: "1px solid blue",
-        borderTopRightRadius: "25px",
-    },
+        root: {
+            maxWidth: 345,
+            [theme.breakpoints.down("md")] : {
+                maxWidth: 280
+            },
+            [theme.breakpoints.down("sm")] : {
+                maxWidth: 200
+            }
+          },        
+        container: {
+            padding: theme.spacing(3),
+            border: "1px solid blue",
+            borderTopRightRadius: "25px",
+        },
 
-    right: {
-        display: `flex`,
-        justifyContent: `space-around`
-    }
+        right: {
+            display: `flex`,
+            justifyContent: `space-around`
+        }
   }));
 
     const classes = useStyles(); 
 
     return (
-        <Container className={classes.container} maxWidth="xs">
+        <Container className={`${classes.container} ${classes.root}`} >
             <h3>כניסה למטופל</h3>
             <form>
                 <Grid container spacing={3} className={classes.right}>

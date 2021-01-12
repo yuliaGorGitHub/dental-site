@@ -6,17 +6,20 @@ import HomePage from './pages/HomePage/HomePage';
 import WorkArea from './pages/WorkArea/WorkArea';
 import DentalNavBar from './components/DentalNavBar';
 import { useState } from 'react';
+import User from './data/User';
+import ContactUs from './pages/ContactUs/ContactUs';
+import About from './pages/About/About';
 
 function App() {
  const [activeUser, setActiveUser] = useState(null);
 
 let users = [
-  {tzeut:"123",pwd: "123", fname:"Piter doctor", isDoctor: true},
-  {tzeut:"1234",pwd: "1234", fname:"Dana client", isDoctor: false},
-  {tzeut:"12345",pwd: "12345", fname:"Moshe client", isDoctor: false},
-  {tzeut:"234",pwd: "234", fname:"Gabi doctor", isDoctor: true},
-  {tzeut:"345",pwd: "345", fname:"Avital client", isDoctor: false}
-
+   new User("1", "123", "123", "יוסי", "הלוי" ,"1955-01-01","m", "050-1111111", "yosi@gmail.com","doctor"),
+   new User("2", "1234", "1234", "דנה", "פורתר" ,"1963-12-18","f", "052-2222222", "dana@gmail.com",""),
+   new User("3", "12345", "12345", "מאשה", "Planker" ,"1955-01-01","f", "052-3333333", "moshe@gmail.com",""),
+   new User("4", "234", "234", "Gabi", "Topaz" ,"2005-02-22","m", "052-4444444", "gabi@gmail.com","doctor"),
+   new User("5", "345", "345", "Avital", "Topaz" ,"1980-03-30","f", "054-5555555", "avital@gmail.com",""),
+   new User("6", "456", "456", "David", "Samual" ,"1994-04-15","m", "055-5555555", "avital@gmail.com","hygienist")
 ]
 
 
@@ -31,12 +34,11 @@ const handleLogin = (logedUser) => setActiveUser(logedUser);
     <div className="p-app">
         <HashRouter>
           <Switch>
-            <Route exact path="/"><HomePage  activeUser={activeUser} users={users} onLogin={handleLogin}/>
-            </Route>
-            <Route exact path="/personal"><PersonalArea activeUser={activeUser} users={users}/>
-            </Route>
-            <Route exact path="/work"><WorkArea  activeUser={activeUser} users={users}/>
-            </Route>
+            <Route exact path="/"><HomePage  activeUser={activeUser} users={users} onLogin={handleLogin}/></Route>
+            <Route exact path="/personal"><PersonalArea activeUser={activeUser} users={users}/></Route>
+            <Route exact path="/work"><WorkArea  activeUser={activeUser} users={users}/></Route>
+            <Route exact path="/contactus"><ContactUs activeUser={activeUser}/></Route>
+            <Route exact path="/about"><About  activeUser={activeUser}/></Route>
           </Switch>
         </HashRouter>
     </div>

@@ -10,7 +10,7 @@ function PersonalArea (props)
 
     return(
         <>
-           <h1>hi { (activeUser) ? activeUser.fname : ""}</h1>
+           <h1>שלום   { (activeUser) ? activeUser.fname : ""}</h1>
             <p>Personal Area</p>
 
         </>
