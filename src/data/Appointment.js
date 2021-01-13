@@ -5,7 +5,7 @@ class Appointment
         this.daysOfWeek = ["א", "ב", "ג", "ד", "ה", "ו", "ש"];
 
         this.id = id;
-        this.appDateTime = appDateTime;
+        this.appDateTime = new Date(appDateTime);
         this.doctorId = doctorId;        
         this.pacientId = pacientId;
         this.comments = comments;        
@@ -20,30 +20,29 @@ class Appointment
     }
 
     get appDate() {
-        const currentDate = new Date(this.appDateTime);
-        const date = currentDate.getDate();
-        const month = currentDate.getMonth(); 
-        const year = currentDate.getFullYear();
+        const date = this.appDateTime.getDate();
+        const month = this.appDateTime.getMonth(); 
+        const year = this.appDateTime.getFullYear();
 
-        return date + "/" + (month+1) + "/" + year;
+        return this.pad(date) + "/" + this.pad(month+1) + "/" + year;
       }
 
     get appStartTime()
     {
-        const newDate = new Date(this.appDateTime);
-        const dateArr = newDate.toString().split(" ");
+        //const newDate = new Date(this.appDateTime);
+        const dateArr = this.appDateTime.toString().split(" ");
         return dateArr[4].substring(0, 5);
     }
 
     get appEndTime()
     {
-        const newTimeValue = new Date(this.appDateTime).getTime();
+        const newTimeValue = this.appDateTime.getTime();
         return new Date(newTimeValue + this.appDuration * 60 * 1000);
     }
 
     get appWeekDay()
     {
-        const newDay = new Date(this.appDateTime);
+        const newDay = this.appDateTime;
         return this.daysOfWeek[newDay.getDay()];
     }
 

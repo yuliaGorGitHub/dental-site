@@ -19,7 +19,7 @@ function Appointments (props)
         <>
             <h1>שלום   { (activeUser) ? activeUser.fname : "no user"}</h1>
             <p>Appointments</p>
-            <AppointmentsTable appointments={appointments} />
+            <AppointmentsTable appointments={appointments}  fromScreen="appoint"/>
 
          </>
     )

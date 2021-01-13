@@ -11,28 +11,28 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';  
 //import axios from 'axios';    
 import { useState, useEffect } from 'react'  
-import { IconButton } from "@material-ui/core";
+import { IconButton, ListItem, ListItemText } from "@material-ui/core";
 import HowToRegIcon from '@material-ui/icons/HowToReg';
+import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
+import InfoIcon from '@material-ui/icons/Info';
 
 function AppointmentsTable (props)
 {
-    const {appointments} = props;
+    const {appointments,fromScreen, returnToList} = props;
 
-     const [page, setPage] = React.useState(0);  
-    
+    const [page, setPage] = React.useState(0);  
+     // const [data, setData] = useState([]);   
     
     const [rowsPerPage, setRowsPerPage] = React.useState(5);  
-    const [selectedRow, setselectedRow] = React.useState(null);  
- 
 
-    const handleChangePage = (event, newPage) => {  
-    setPage(newPage);  
-    };  
+      const handleChangePage = (event, newPage) => {  
+        setPage(newPage);  
+      };  
 
-    const handleChangeRowsPerPage = event => {  
-    setRowsPerPage(+event.target.value);  
-    setPage(0);  
-    };  
+      const handleChangeRowsPerPage = event => {  
+        setRowsPerPage(+event.target.value);  
+        setPage(0);  
+      };  
 
     const useStyles = makeStyles({  
         root: {  
@@ -48,10 +48,9 @@ function AppointmentsTable (props)
         },
         hover: {
             "&:hover": {
-              backgroundColor: "#D4F1F4"
+              backgroundColor: "#D4F1F4",
             }
-          },
-
+        },
         footer: {
             "& > td > div": {
                 height: 30,
@@ -65,11 +64,9 @@ function AppointmentsTable (props)
 
      const classes = useStyles();
 
-     function editItem()
-     {
-         alert(1);
-         //selectedRow();
-     }
+    function removeApp(id) {
+      returnToList(id-1);
+    }
 
     return(
               <Paper className={classes.root}>  
@@ -88,15 +85,38 @@ function AppointmentsTable (props)
                         {appointments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {  
                             return (  
                             <TableRow  key={row.id} className={classes.hover} >  
-                                <TableCell   className={classes.padding} align="right">{row.appDate}</TableCell>  
-                                <TableCell   className={classes.padding} align="right">{row.appWeekDay}</TableCell>  
-                                <TableCell   className={classes.padding} align="right">{row.appStartTime}</TableCell>  
-                                <TableCell   className={classes.padding} align="right">{row.doctorId}</TableCell>                                 
-                                <TableCell   className={classes.padding} align="right">
-                                    <IconButton edge="start" value={row.id}   color="inherit"  aria-label="create" dir="rtl" className={classes.padding}
-                                        onClick={editItem}>
-                                    <HowToRegIcon fontSize="small" color="primary"/>
-                                </IconButton >                                    
+                                <TableCell className={classes.padding} align="right">{row.appDate}</TableCell>  
+                                <TableCell className={classes.padding} align="right">{row.appWeekDay}</TableCell>  
+                                <TableCell className={classes.padding} align="right">{row.appStartTime}</TableCell>  
+                                <TableCell className={classes.padding} align="right">{row.doctorId}</TableCell>                                 
+                                <TableCell className={classes.padding} align="right" value={row.id}>
+                                {
+                                    (fromScreen === "appoint") ?                                 
+                                      <IconButton edge="start"  color="inherit"  aria-label="create" dir="rtl" className={classes.padding}  value={row.id} >
+                                        <HowToRegIcon fontSize="small" color="primary" />
+                                      </IconButton >   
+                                    :  (fromScreen === "work"  ?
+                                        <a href="personal" >
+                                          <ListItem button>
+                                          <ListItemText primary={row.pacientId} />
+                                          </ListItem>
+                                        </a>
+                                    : (
+                                        (fromScreen === "pActive") ?                              
+                                          <IconButton edge="start"  color="inherit"  aria-label="create" dir="rtl" className={classes.padding}
+                                                      onClick={() => removeApp(row.id)} >  
+                                            <PersonAddDisabledIcon fontSize="small" color="primary"/>
+                                          </IconButton > 
+                                        :
+                                        (
+                                          fromScreen === "pHistory" ?
+                                            <IconButton edge="start"  color="inherit"  aria-label="create" dir="rtl" className={classes.padding}>  
+                                              <InfoIcon fontSize="small" color="primary"/>
+                                            </IconButton > : ""
+                                        )
+                                    ))
+                                }
+
                                 </TableCell>  
                             </TableRow>  
                             );  
@@ -107,7 +127,7 @@ function AppointmentsTable (props)
                 <TablePagination  
                 // className={classes.footer}
                 height={30}
-                minHeight={30}
+                // minHeight={30}
                     labelRowsPerPage='שורות בדף:'
                     rowsPerPageOptions={[5, 10, 15]}  
                     component="div"  
