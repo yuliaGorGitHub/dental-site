@@ -29,9 +29,9 @@ function App() {
 
   let appointments = [
     new Appointment("1", "2021-01-13 08:34:56","1", "2", "", "", "2005-02-12 12:34:56"),
-    new Appointment("2", "2021-01-22 14:04:56","1", "5", "", "", "2005-02-22 12:34:56"),
-    new Appointment("3", "2021-01-22 12:34:56","4", "", "", "", "2005-02-22 12:34:56"),
-    new Appointment("4", "2021-01-22 12:34:56","6", "", "", "", "2005-02-22 12:34:56"),
+    new Appointment("2", "2021-01-22 14:04:56","1", "2", "", "", "2005-02-22 12:34:56"),
+    new Appointment("3", "2021-01-13 12:34:56","4", "2", "", "", "2005-02-22 12:34:56"),
+    new Appointment("4", "2021-01-22 12:34:56","6", "2", "", "", "2005-02-22 12:34:56"),
     new Appointment("5", "2021-01-22 13:04:56","4", "", "", "", "2005-02-22 12:34:56"),
     new Appointment("6", "2021-01-22 13:04:56","6", "", "", "", "2005-02-22 12:34:56"),
   ]
@@ -55,18 +55,20 @@ function App() {
   let activeUserAppoint = [];
   let freeAppoint = [];
   let doctorDailyAppointments = [];
+
 if (!loading)
 {
-
+  const curdate = new Date();
 
    activeUserAppoint = activeUser ? appointmentSt.filter(item=>item.pacientId === activeUser.id) : [];
 
-   freeAppoint = appointmentSt.filter(item=>item.pacientId === "");
+   freeAppoint = appointmentSt.filter(item=>item.pacientId === "" &&  item.appDateTime >= curdate);
 
 
-   const curdate = new Date();
+  // display appointments for doctor only for one current day
    doctorDailyAppointments = activeUser ? appointmentSt.filter(item=>item.doctorId === activeUser.id 
             && getDate(item.appDateTime).valueOf() === getDate(curdate).valueOf() && item.pacientId != "") : [];
+
 }
   return (
 
@@ -77,6 +79,7 @@ if (!loading)
           <Switch>
             <Route exact path="/"><HomePage  activeUser={activeUser} users={users} onLogin={handleLogin}/></Route>
             <Route exact path="/personal"><PersonalArea activeUser={activeUser} appointments={activeUserAppoint} returnToList={returnAppointment}/></Route>
+            <Route exact path="/personal/:id"><PersonalArea activeUser={activeUser} appointments={activeUserAppoint} returnToList={returnAppointment}/></Route>
             <Route exact path="/appointments"><Appointments activeUser={activeUser} appointments={freeAppoint}  /></Route>
             <Route exact path="/work"><WorkArea  activeUser={activeUser} appointments={doctorDailyAppointments} /></Route>
             <Route exact path="/contactus"><ContactUs activeUser={activeUser}/></Route>

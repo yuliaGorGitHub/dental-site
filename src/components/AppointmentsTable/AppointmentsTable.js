@@ -96,7 +96,7 @@ function AppointmentsTable (props)
                                         <HowToRegIcon fontSize="small" color="primary" />
                                       </IconButton >   
                                     :  (fromScreen === "work"  ?
-                                        <a href="personal" >
+                                       <a href= { `#/personal/${row.pacientId}` }>    
                                           <ListItem button>
                                           <ListItemText primary={row.pacientId} />
                                           </ListItem>
