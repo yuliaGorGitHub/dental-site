@@ -26,6 +26,8 @@ function PersonalArea (props)
             <p>Personal Area</p>
 
             <AppointmentsTable appointments={active}  fromScreen="pActive"  returnToList={returnToList} />
+
+            <h4>הסטוריית ביקורים </h4>
             <AppointmentsTable appointments={history}  fromScreen="pHistory"  returnToList={returnToList} />
         </>
     )
