@@ -1,7 +1,7 @@
 
-function getDate (date)
+function getDateOnly (date)
 {
     return date.setHours(0,0,0,0);
 }
 
-export {getDate};
+export {getDateOnly};

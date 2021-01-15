@@ -29,7 +29,6 @@ class Appointment
 
     get appStartTime()
     {
-        //const newDate = new Date(this.appDateTime);
         const dateArr = this.appDateTime.toString().split(" ");
         return dateArr[4].substring(0, 5);
     }

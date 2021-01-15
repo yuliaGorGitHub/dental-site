@@ -10,12 +10,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';  
 import TableRow from '@material-ui/core/TableRow'; 
 //import axios from 'axios';     
-import { Box, Collapse, IconButton, ListItem, ListItemText, Typography } from "@material-ui/core";
+import { Box, Collapse, IconButton, Link, Typography } from "@material-ui/core";
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
 import InfoIcon from '@material-ui/icons/Info';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 
 function CollapsibleRow (props)
 {
@@ -26,17 +27,26 @@ function CollapsibleRow (props)
     const useStyles = makeStyles({  
         root: {  
           width: '90%',
-          margin: '0 auto',        
+          margin: '0 auto',    
         },  
         container: {  
           maxHeight: 440, 
         },  
+        displayFlex: { 
+            display: `flex`,
+            justifyContent: `space-between`,
+            alignItems: "baseline",
+        },
         padding: {
             paddingTop: 0,
-            paddingBottom: 0,
+            paddingBottom: 0,       
         },
+        //style for font size
+        resize:{
+            fontSize: 14
+      },
         right: {
-            diraction: "ltr", 
+ //           diraction: "ltr", 
             textAlign: "right"
         },
         hover: {
@@ -64,34 +74,41 @@ function CollapsibleRow (props)
 
      const classes = useStyles();
   
-      function getStripedStyle(index) {
-        return { backgroundColor: index % 2 ? '#E3E8E9' : '#DDFFE7' };
-      }      
       
       function removeApp(id) {
         returnToList(id-1);
+      }
+
+      function addComment(id, comments) {
+        alert(id);
+        alert(comments);
       }
 
     return (
 
         <>
             <TableRow  key={row.id} className={`${classes.hover} ${index % 2 ? classes.even :  classes.odd}`}>
-                <TableCell className={classes.padding} align="right">{row.appDate}</TableCell>  
-                <TableCell className={classes.padding} align="right">{row.appWeekDay}</TableCell>  
-                <TableCell className={classes.padding} align="right">{row.appStartTime}</TableCell>  
-                <TableCell className={classes.padding} align="right">{row.doctorId}</TableCell>                                 
-                <TableCell className={classes.padding} align="right" value={row.id}>
+                <TableCell className={`${classes.padding} ${classes.right}`}>{row.appDate}</TableCell>  
+                <TableCell className={`${classes.padding} ${classes.right}`}>{row.appWeekDay}</TableCell>  
+                <TableCell className={`${classes.padding} ${classes.right}`}>{row.appStartTime}</TableCell>  
+                <TableCell className={`${classes.padding} ${classes.right}`}>{row.doctorId}</TableCell>                                 
+                <TableCell className={`${classes.padding} ${classes.right}`} value={row.id}>
                 {
                     (fromScreen === "appoint") ?                                 
                     <IconButton edge="start"  color="inherit"  aria-label="create" dir="rtl" className={classes.padding}  value={row.id} >
                         <HowToRegIcon fontSize="small" color="primary" />
                     </IconButton >   
                     :  (fromScreen === "work"  ?
-                    <a href= { `#/personal/${row.pacientId}` }>    
-                        <ListItem button>
-                        <ListItemText primary={row.pacientId} />
-                        </ListItem>
-                        </a>
+                     <div  className={`${classes.padding} ${classes.displayFlex}`}>
+                        <Link href={ `#/personal/${row.pacientId}` }  className={classes.resize} >
+                            {row.pacientId}
+                        </Link>    
+                        <IconButton edge="start"  color="inherit"  aria-label="create" dir="rtl" className={classes.padding}
+                                    onClick={() => addComment(row.id, row.comments)} >  
+                            <ImportContactsIcon fontSize="small" color="primary"/>
+                        </IconButton > 
+                     </div>     
+
                     : (
                         (fromScreen === "pActive") ?                              
                         <IconButton edge="start"  color="inherit"  aria-label="create" dir="rtl" className={classes.padding}
@@ -119,8 +136,8 @@ function CollapsibleRow (props)
                 </TableCell>  
             </TableRow>  
 
-            <TableRow className={`${classes.right} ${index % 2 ? classes.even :  classes.odd}`}>
-                <TableCell className={classes.padding} colSpan={5}>
+            <TableRow key={row.appDateTime} className={`${classes.right} ${index % 2 ? classes.even :  classes.odd}`}>
+                <TableCell className={`${classes.padding} ${classes.right}`} colSpan={5}>
                   <Collapse in={open} timeout="auto" unmountOnExit>
                     <Box margin={1}>
                       <Typography variant="subtitle1" gutterBottom component="div">
@@ -129,7 +146,7 @@ function CollapsibleRow (props)
                       <Table size="small">      
                         <TableBody>
                             <TableRow >
-                              <TableCell component="th" scope="row">
+                              <TableCell component="th" scope="row"  align="right">
                               {row.comments}
                               </TableCell>
                             </TableRow>                                                               

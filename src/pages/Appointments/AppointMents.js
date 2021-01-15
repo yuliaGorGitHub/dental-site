@@ -3,6 +3,7 @@ import "./Appointments.css"
 
 import React from 'react';  
 import AppointmentsTable from "../../components/AppointmentsTable/AppointmentsTable";
+//import CustomPaginationActionsTable from "../../components/CustomPaginationActionsTable/CustomPaginationActionsTable";
 
  
 
@@ -20,7 +21,7 @@ function Appointments (props)
             <h1>שלום   { (activeUser) ? activeUser.fname : "no user"}</h1>
             <p>Appointments</p>
             <AppointmentsTable appointments={appointments}  fromScreen="appoint"/>
-
+            {/* <CustomPaginationActionsTable /> */}
          </>
     )
 }

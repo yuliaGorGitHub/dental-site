@@ -11,7 +11,7 @@ import ContactUs from './pages/ContactUs/ContactUs';
 import About from './pages/About/About';
 import Appointment from './data/Appointment';
 import Appointments from './pages/Appointments/AppointMents';
-import {getDate} from './Utils/Utils.js'
+import {getDateOnly} from './Utils/Utils.js'
 
 function App() {
  const [activeUser, setActiveUser] = useState(null);
@@ -30,16 +30,16 @@ function App() {
   ]
 
   let appointments = [
-    new Appointment("1", "2021-01-14 08:34:56","1", "2", "המטופל הגיע עקב כאבי שיניים, לאחר בדיקה התגלה חור בשן 8 בצד ימין עליון. בוצעה עקירה", "", "2005-02-12 12:34:56"),
-    new Appointment("2", "2021-01-12 14:04:56","1", "2", "המטופל הגיע לטיפול הלבנת שינייים, ההלבנה בוצעה בהצלחה", "", "2005-02-22 12:34:56"),
-    new Appointment("3", "2021-01-12 12:34:56","4", "2", "המטופל הגיע עקב שבירת שן 1 ימין, המטופל שמר את השן בתוך כוס עם חלב עד רגע ההגעה למרפאה, השבר טופל והשן חוברה למקומה בהצלחה", "", "2005-02-22 12:34:56"),
-    new Appointment("4", "2021-01-12 12:34:56","4", "2", "למטופל בוצעה עקירה כירורגית של שן בינה", "", "2005-02-22 12:34:56"),
-    new Appointment("5", "2021-01-22 13:04:56","4", "2", "המטופלת הגיעה לשם קבלת חוות דעת על השתלת שיניים, חוות הבדעת היחא חיובי, ניתן לבצע השתלה. התור נקבע לחודש הבא", "", "2005-02-22 12:34:56"),
-    new Appointment("6", "2021-01-22 13:04:56","6", "2", "המטופל בן ה-6 הגיע עם אימו, אימו התלוננה על כך שהילד לא מבין את חשיבות צחצוח השיניים. בוצעה עבודת הסברה ", "", "2005-02-22 12:34:56"),
-    new Appointment("7", "2021-01-22 13:04:56","7", "2", "המטופלת בת 12, אמרה שחשה בושה עקב רווח בין השיניים הקידמיות, בוצעה תבנית גבס של השיניים והוחלט על המשך טיםול של יישור שיניים. נקבעה פגישה נוספת", "", "2005-02-22 12:34:56"),
-    new Appointment("8", "2021-01-22 13:04:56","7", "", "המטופל בן 20 שהגיע עקב תזוזה של שיניים לאחר שלפני מספר שנים עשה תהליך של יישור שיניים. מבדיקה עלה שהשיניים זזו עקב בקיעת שיני בינה, הופנה לכירורג לשם עקירה ולאחר מכן התבקש לקבוע תור נוסף לשם המשך טיפול ", "", "2005-02-22 12:34:56"),
-    new Appointment("9", "2021-01-22 13:04:56","8", "", "", "המטופל הגיע לבדיקת חצי-שנתית שגרתית. בוצעה הסרת אבנית", "2005-02-22 12:34:56"),
-    new Appointment("10", "2021-01-22 13:04:56","7", "", "מטופלת בת 16 הגיעה לשם קבלת ייעוץ ליישור שיניים. בוצעה בדיקה ונמצא מנשך לא תקין, כמו כן נמצא שלא כל השיניים הקבועות בקעו. הוחלט על טיפול מיידי, המטופלת קיבלה הוראה לבצע צילום שינים בתור דבר ראשון", "", "2005-02-22 12:34:56"),
+    new Appointment("1", "2021-01-15 08:34:56","1", "2", "המטופל הגיע עקב כאבי שיניים, לאחר בדיקה התגלה חור בשן 8 בצד ימין עליון. בוצעה עקירה", "", "2005-02-12 12:34:56"),
+    new Appointment("2", "2021-01-15 18:42:56","1", "2", "המטופל הגיע לטיפול הלבנת שינייים, ההלבנה בוצעה בהצלחה", "", "2005-02-22 12:34:56"),
+    new Appointment("3", "2021-01-12 12:34:56","4", "", "המטופל הגיע עקב שבירת שן 1 ימין, המטופל שמר את השן בתוך כוס עם חלב עד רגע ההגעה למרפאה, השבר טופל והשן חוברה למקומה בהצלחה", "", "2005-02-22 12:34:56"),
+    new Appointment("4", "2021-01-15 12:36:56","1", "2", "למטופל בוצעה עקירה כירורגית של שן בינה", "", "2005-02-22 12:34:56"),
+    new Appointment("5", "2021-01-22 13:10:56","4", "", "המטופלת הגיעה לשם קבלת חוות דעת על השתלת שיניים, חוות הבדעת היחא חיובי, ניתן לבצע השתלה. התור נקבע לחודש הבא", "", "2005-02-22 12:34:56"),
+    new Appointment("6", "2021-01-16 13:04:56","6", "", "המטופל בן ה-6 הגיע עם אימו, אימו התלוננה על כך שהילד לא מבין את חשיבות צחצוח השיניים. בוצעה עבודת הסברה ", "", "2005-02-22 12:34:56"),
+    new Appointment("7", "2021-01-22 13:08:56","7", "2", "המטופלת בת 12, אמרה שחשה בושה עקב רווח בין השיניים הקידמיות, בוצעה תבנית גבס של השיניים והוחלט על המשך טיםול של יישור שיניים. נקבעה פגישה נוספת", "", "2005-02-22 12:34:56"),
+    new Appointment("8", "2021-01-21 13:20:56","7", "", "המטופל בן 20 שהגיע עקב תזוזה של שיניים לאחר שלפני מספר שנים עשה תהליך של יישור שיניים. מבדיקה עלה שהשיניים זזו עקב בקיעת שיני בינה, הופנה לכירורג לשם עקירה ולאחר מכן התבקש לקבוע תור נוסף לשם המשך טיפול ", "", "2005-02-22 12:34:56"),
+    new Appointment("9", "2021-01-22 13:40:56","8", "", "", "המטופל הגיע לבדיקת חצי-שנתית שגרתית. בוצעה הסרת אבנית", "2005-02-22 12:34:56"),
+    new Appointment("10", "2021-01-22 13:50:56","7", "", "מטופלת בת 16 הגיעה לשם קבלת ייעוץ ליישור שיניים. בוצעה בדיקה ונמצא מנשך לא תקין, כמו כן נמצא שלא כל השיניים הקבועות בקעו. הוחלט על טיפול מיידי, המטופלת קיבלה הוראה לבצע צילום שינים בתור דבר ראשון", "", "2005-02-22 12:34:56"),
   ]
   useEffect(()=>
   {
@@ -66,14 +66,30 @@ if (!loading)
 {
   const curdate = new Date();
 
-   activeUserAppoint = activeUser ? appointmentSt.filter(item=>item.pacientId === activeUser.id) : [];
+   // activeUserAppoint = activeUser ? appointmentSt.filter(item=>item.pacientId === activeUser.id) : [];
 
    freeAppoint = appointmentSt.filter(item=>item.pacientId === "" &&  item.appDateTime >= curdate);
-
-
+  //  console.log("in app");
+  //  console.log("all " +appointmentSt.length);
+  //  if(activeUser)   
+  //    console.log("activeUser  " +activeUser.fname);
   // display appointments for doctor only for one current day
-   doctorDailyAppointments = activeUser ? appointmentSt.filter(item=>item.doctorId === activeUser.id 
-            && getDate(item.appDateTime).valueOf() === getDate(curdate).valueOf() && item.pacientId != "") : [];
+  for(let i=0; activeUser && i<appointmentSt.length; i++)
+  {
+    // console.log(appointmentSt[i].doctorId === activeUser.id);
+    if(appointmentSt[i].doctorId === activeUser.id && appointmentSt[i].pacientId !== "")
+    {
+      console.log("i  " +i);
+      let  chDate = appointmentSt[i].appDateTime;
+       if(getDateOnly(chDate).valueOf() >= getDateOnly(curdate).valueOf())
+      doctorDailyAppointments.push(appointmentSt[i]);
+      console.log("in "+ appointmentSt[i].appDateTime + ' id ' +  appointmentSt[i].id);
+    }
+
+  }
+
+  //  doctorDailyAppointments = activeUser ? appointmentSt.filter(item=>item.doctorId === activeUser.id 
+  //           && getDate(item.appDateTime).valueOf() === getDate(curdate).valueOf() && item.pacientId != "") : [];
 
 }
   return (
@@ -84,8 +100,8 @@ if (!loading)
         <HashRouter>
           <Switch>
             <Route exact path="/"><HomePage  activeUser={activeUser} users={users} onLogin={handleLogin}/></Route>
-            <Route exact path="/personal"><PersonalArea activeUser={activeUser} appointments={activeUserAppoint} returnToList={returnAppointment}/></Route>
-            <Route exact path="/personal/:id"><PersonalArea activeUser={activeUser} appointments={activeUserAppoint} returnToList={returnAppointment}/></Route>
+            <Route exact path="/personal"><PersonalArea activeUser={activeUser} appointments={appointmentSt} returnToList={returnAppointment}/></Route>
+            <Route exact path="/personal/:id"><PersonalArea activeUser={activeUser} appointments={appointmentSt} returnToList={returnAppointment}/></Route>
             <Route exact path="/appointments"><Appointments activeUser={activeUser} appointments={freeAppoint}  /></Route>
             <Route exact path="/work"><WorkArea  activeUser={activeUser} appointments={doctorDailyAppointments} /></Route>
             <Route exact path="/contactus"><ContactUs activeUser={activeUser}/></Route>
