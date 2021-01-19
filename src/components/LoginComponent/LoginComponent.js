@@ -6,29 +6,50 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { create } from 'jss';
 import rtl from 'jss-rtl';
-//import { StylesProvider, jssPreset } from '@material-ui/core/styles';
- import { ListItem, ListItemText } from '@material-ui/core';
+import { ListItem, ListItemText } from '@material-ui/core';
 import { StylesProvider, sProvider, jssPreset, ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert } from '@material-ui/lab';
+import Parse from 'parse';
+import User from '../../data/User';
 
 function LoginComponent (props)
 {
-    const {users, onLogin} = props;
+    const { activeUser, onLogin} = props;
     const [zeutInput, setZeutInput] = useState("");
     const [pwdInput, setPwdInput] = useState("");
     const [showWarning, setShowWarning] = useState(false);
 
-    function checkLogin ()
-    {
-        const userFound = users.find(user => (zeutInput.toLowerCase() === user.tzeut.toLowerCase() && pwdInput === user.pwd) );
-        if(userFound)
-        {
-            onLogin(userFound);
-        }
-        else
-            setShowWarning(true)
 
+    function checkLogin()
+    {
+       Parse.User.logIn( zeutInput, pwdInput).then((loguser) => {
+
+        if(loguser.get('jobId') != null)
+        {
+            const job = Parse.Object.extend('job');
+            const query = new Parse.Query(job);
+
+            query.get(loguser.get('jobId').id).then(res=>{
+               // successful login for worker
+               onLogin(new User(loguser, res.get("jobHebrew")));
+            } )
+            .catch(error=>
+            {
+                console.log(error);
+            })
+        }
+
+        else
+        {
+            // successful login for pacient
+            onLogin(new User(loguser, ""));
+        }
+
+        }).catch(error => {
+            console.error('Error while logging in user', error);
+            setShowWarning(true)
+        })
     }
 
     function inputZeutHandle(e)

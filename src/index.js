@@ -3,6 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Parse from 'parse';
+
+Parse.serverURL = 'https://parseapi.back4app.com';
+Parse.initialize(
+  'Mbflpmm7DVC8u5WfdjJ2zU6Wa5KlR9F7hJv6qZyc', // This is your Application ID
+  'qvEonIcPCSyoVZDxvhJtbyGkPVyvoD8EpHJFfnJK', // This is your Javascript keynpm start
+  
+);
+
 
 ReactDOM.render(
   <React.StrictMode>

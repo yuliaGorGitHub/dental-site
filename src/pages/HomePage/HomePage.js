@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import LoginComponent from "../../components/LoginComponent/LoginComponent";
 import "./HomePage.css"
 
+
 function HomePage (props)
 {
     const {activeUser, users, onLogin} = props;
@@ -28,7 +29,7 @@ function HomePage (props)
     return(
         <div className="p-home">
             <p>Home Page</p>
-            <LoginComponent users={users} onLogin={redirectOnLogin} />
+            <LoginComponent activeUser={activeUser} onLogin={redirectOnLogin} />
          </div>
     )
 }

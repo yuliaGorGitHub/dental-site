@@ -7,7 +7,6 @@ import TableBody from '@material-ui/core/TableBody';
  import TableCell from '@material-ui/core/TableCell';  
 import TableContainer from '@material-ui/core/TableContainer';  
 import TableHead from '@material-ui/core/TableHead';  
-import TablePagination from '@material-ui/core/TablePagination';  
 import TableRow from '@material-ui/core/TableRow';  
 //import axios from 'axios';    
 import { useState, useEffect } from 'react'  
@@ -16,7 +15,7 @@ import CustomMaterialPagination from '../CustomMaterialPagination';
 
 function AppointmentsTable (props)
 {
-    const {appointments,fromScreen, returnToList} = props;
+    const {appointments,fromScreen, returnToList, setShowModal, setSelectedRow} = props;
 
     const [page, setPage] = React.useState(0);  
     const [rowsPerPage, setRowsPerPage] = React.useState(3);  
@@ -66,7 +65,7 @@ function AppointmentsTable (props)
    return(
         <Paper className={classes.root}>  
           <TableContainer className={classes.container}>  
-              <Table stickyHeader aria-label="sticky table">  
+              <Table  aria-label="sticky table">  
                 <TableHead>  
                   <TableRow  className={classes.header}>  
                       <TableCell className={classes.padding} align="right">תאריך</TableCell>  
@@ -79,7 +78,7 @@ function AppointmentsTable (props)
               <TableBody>  
                   {appointments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {  
                       return (  
-                        <CollapsibleRow fromScreen={fromScreen} returnToList={returnToList} row={row} index={index}/>
+                        <CollapsibleRow fromScreen={fromScreen} returnToList={returnToList} row={row} index={index} setShowModal={setShowModal}  setSelectedRow={setSelectedRow}/>
                       );  
                   })}  
               </TableBody>  

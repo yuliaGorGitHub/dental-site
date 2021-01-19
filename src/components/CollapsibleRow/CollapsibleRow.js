@@ -1,13 +1,9 @@
 import './CollapsibleRow.css';
-import React from 'react';  
-import { makeStyles } from '@material-ui/core/styles';  
-import Paper from '@material-ui/core/Paper';  
+import React, { Component } from "react";
+import { makeStyles } from '@material-ui/core/styles';   
 import Table from '@material-ui/core/Table';  
 import TableBody from '@material-ui/core/TableBody';  
-import TableCell from '@material-ui/core/TableCell';  
-import TableContainer from '@material-ui/core/TableContainer';  
-import TableHead from '@material-ui/core/TableHead';  
-import TablePagination from '@material-ui/core/TablePagination';  
+import TableCell from '@material-ui/core/TableCell';    
 import TableRow from '@material-ui/core/TableRow'; 
 //import axios from 'axios';     
 import { Box, Collapse, IconButton, Link, Typography } from "@material-ui/core";
@@ -18,12 +14,15 @@ import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 
+
+
+
 function CollapsibleRow (props)
 {
-    const {appointments,fromScreen, returnToList, row, index} = props;
+    const {appointments,fromScreen, returnToList, row, index, setShowModal, setSelectedRow} = props;
 
     const [open, setOpen] = React.useState(false);
-
+   
     const useStyles = makeStyles({  
         root: {  
           width: '90%',
@@ -79,9 +78,15 @@ function CollapsibleRow (props)
         returnToList(id-1);
       }
 
-      function addComment(id, comments) {
-        alert(id);
-        alert(comments);
+
+    //   function addComment(id, comments) {
+    //     setShowModal(!showModal);
+    //   }
+
+      function openModal(id)
+      {
+        setSelectedRow(id);
+        setShowModal();
       }
 
     return (
@@ -91,7 +96,7 @@ function CollapsibleRow (props)
                 <TableCell className={`${classes.padding} ${classes.right}`}>{row.appDate}</TableCell>  
                 <TableCell className={`${classes.padding} ${classes.right}`}>{row.appWeekDay}</TableCell>  
                 <TableCell className={`${classes.padding} ${classes.right}`}>{row.appStartTime}</TableCell>  
-                <TableCell className={`${classes.padding} ${classes.right}`}>{row.doctorId}</TableCell>                                 
+                <TableCell className={`${classes.padding} ${classes.right}`}>{row.doctorId}</TableCell>                       
                 <TableCell className={`${classes.padding} ${classes.right}`} value={row.id}>
                 {
                     (fromScreen === "appoint") ?                                 
@@ -104,9 +109,11 @@ function CollapsibleRow (props)
                             {row.pacientId}
                         </Link>    
                         <IconButton edge="start"  color="inherit"  aria-label="create" dir="rtl" className={classes.padding}
-                                    onClick={() => addComment(row.id, row.comments)} >  
+                                    onClick={() => openModal(row.id)}
+                                    >  
                             <ImportContactsIcon fontSize="small" color="primary"/>
                         </IconButton > 
+                       
                      </div>     
 
                     : (
@@ -156,6 +163,7 @@ function CollapsibleRow (props)
                   </Collapse>
                 </TableCell>
             </TableRow>
+           
         </>
 
     )

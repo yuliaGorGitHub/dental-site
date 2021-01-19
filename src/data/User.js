@@ -1,17 +1,20 @@
+import Parse from 'parse';
+
 class User 
 {
-    constructor(id, tzeut, pwd, fname, lname, birthdate, sex, phone, email, job) 
+    constructor(parseUser,job) 
     {
-        this.id = id;
-        this.tzeut = tzeut;
-        this.pwd = pwd;        
-        this.fname = fname;
-        this.lname = lname;        
-        this.birthdate = new Date(birthdate);
-        this.sex = sex;
-        this.phone = phone;
-        this.email = email;
-        this.job = job;
+        this.id = parseUser.id;
+        this.tzeut = parseUser.get("tzeut");
+        this.pwd = parseUser.get("pwd");        
+        this.fname = parseUser.get("fname");
+        this.lname = parseUser.get("lname");        
+        this.birthdate =  parseUser.get("birthdate");  
+        this.sex = parseUser.get("sex"); 
+        this.phone = parseUser.get("phone");
+        this.email = parseUser.get("email");
+        this.job =  parseUser.get('jobId') != null ? parseUser.get('jobId').id : "";
+        this.jobStr = job;
     }
 }
 export default User;
