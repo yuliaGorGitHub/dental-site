@@ -33,7 +33,7 @@ function LoginComponent (props)
             query.get(loguser.get('jobId').id).then(res=>{
                // successful login for worker
                onLogin(new User(loguser, res.get("jobHebrew")));
-            } )
+            })
             .catch(error=>
             {
                 console.log(error);

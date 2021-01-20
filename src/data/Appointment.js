@@ -1,16 +1,23 @@
+import Parse from 'parse';
+
 class Appointment 
 {
-    constructor(id, appDateTime, doctorId, pacientId, comments, createdBy, createdAt) 
+    constructor(parseAppointment) 
     {
         this.daysOfWeek = ["א", "ב", "ג", "ד", "ה", "ו", "ש"];
 
-        this.id = id;
-        this.appDateTime = new Date(appDateTime);
-        this.doctorId = doctorId;        
-        this.pacientId = pacientId;
-        this.comments = comments;        
-        this.createdBy = createdBy;
-        this.createdAt = new Date(createdAt);
+        this.id = parseAppointment.id;
+        this.appDateTime = parseAppointment.get("appDateTime");   // new Date(appDateTime);
+        this.doctorId = parseAppointment.get("doctorId");       
+        this.doctorName = parseAppointment.get("doctorId") == undefined ? "" : parseAppointment.get("doctorId").get("fname") + " " + parseAppointment.get("doctorId").get("lname"); 
+        this.pacientId = parseAppointment.get("pacientId");
+        this.pacientName =  parseAppointment.get("pacientId") == undefined ? "" : parseAppointment.get("pacientId").get("fname")+ " " + parseAppointment.get("pacientId").get("lname"); 
+        this.comments = parseAppointment.get("comments");        
+        this.createdAt =  parseAppointment.get("createdAt");   // new Date(createdAt);
+        this.updatedAt =  parseAppointment.get("updatedAt"); 
+        this.updatedBy = parseAppointment.get("updatedBy");
+
+
         this.appDuration = 29;  // duration of appointment in minutes
     }
 

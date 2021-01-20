@@ -89,15 +89,17 @@ function CollapsibleRow (props)
         setShowModal();
       }
 
+      //debugger;
+      console.log(row);
     return (
 
         <>
-            <TableRow  key={row.id} className={`${classes.hover} ${index % 2 ? classes.even :  classes.odd}`}>
-                <TableCell className={`${classes.padding} ${classes.right}`}>{row.appDate}</TableCell>  
-                <TableCell className={`${classes.padding} ${classes.right}`}>{row.appWeekDay}</TableCell>  
-                <TableCell className={`${classes.padding} ${classes.right}`}>{row.appStartTime}</TableCell>  
-                <TableCell className={`${classes.padding} ${classes.right}`}>{row.doctorId}</TableCell>                       
-                <TableCell className={`${classes.padding} ${classes.right}`} value={row.id}>
+            <TableRow  key={index} className={`${classes.hover} ${index % 2 ? classes.even :  classes.odd}`}>
+                <TableCell key={index} className={`${classes.padding} ${classes.right}`}>{row.appDate}</TableCell>  
+                <TableCell key={index} className={`${classes.padding} ${classes.right}`}>{row.appWeekDay}</TableCell>  
+                <TableCell key={index} className={`${classes.padding} ${classes.right}`}>{row.appStartTime}</TableCell>  
+                <TableCell key={index} className={`${classes.padding} ${classes.right}`}>{row.doctorName}</TableCell>                       
+                <TableCell key={index} className={`${classes.padding} ${classes.right}`} value={row.id}>
                 {
                     (fromScreen === "appoint") ?                                 
                     <IconButton edge="start"  color="inherit"  aria-label="create" dir="rtl" className={classes.padding}  value={row.id} >
@@ -105,8 +107,8 @@ function CollapsibleRow (props)
                     </IconButton >   
                     :  (fromScreen === "work"  ?
                      <div  className={`${classes.padding} ${classes.displayFlex}`}>
-                        <Link href={ `#/personal/${row.pacientId}` }  className={classes.resize} >
-                            {row.pacientId}
+                        <Link href={ `#/personal/${row.pacientId.id}` }  className={classes.resize} >
+                            {row.pacientName}
                         </Link>    
                         <IconButton edge="start"  color="inherit"  aria-label="create" dir="rtl" className={classes.padding}
                                     onClick={() => openModal(row.id)}
@@ -144,16 +146,19 @@ function CollapsibleRow (props)
             </TableRow>  
 
             <TableRow key={row.appDateTime} className={`${classes.right} ${index % 2 ? classes.even :  classes.odd}`}>
-                <TableCell className={`${classes.padding} ${classes.right}`} colSpan={5}>
+                <TableCell key={index} className={`${classes.padding} ${classes.right}`} colSpan={5}>
                   <Collapse in={open} timeout="auto" unmountOnExit>
                     <Box margin={1}>
-                      <Typography variant="subtitle1" gutterBottom component="div">
+                      {/* <Typography variant="subtitle1" gutterBottom component="div">
                       סיכום הביקור:
-                      </Typography>
+                      </Typography> */}
                       <Table size="small">      
                         <TableBody>
-                            <TableRow >
-                              <TableCell component="th" scope="row"  align="right">
+                            <TableRow  key={index}>
+                            <TableCell key={index} component="th" scope="row"  align="right">
+                              {row.appStartTime}
+                              </TableCell>
+                              <TableCell key={index} component="th" scope="row"  align="right">
                               {row.comments}
                               </TableCell>
                             </TableRow>                                                               

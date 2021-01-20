@@ -1,8 +1,8 @@
-import Parse from 'parse';
+//import Parse from 'parse';
 
 class User 
 {
-    constructor(parseUser,job) 
+    constructor(parseUser, job) 
     {
         this.id = parseUser.id;
         this.tzeut = parseUser.get("tzeut");

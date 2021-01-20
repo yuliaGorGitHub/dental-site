@@ -12,6 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { useState, useEffect } from 'react'  
 import CollapsibleRow from '../CollapsibleRow/CollapsibleRow';
 import CustomMaterialPagination from '../CustomMaterialPagination';
+import { DepartureBoardOutlined } from '@material-ui/icons';
 
 function AppointmentsTable (props)
 {
