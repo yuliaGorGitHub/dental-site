@@ -13,11 +13,14 @@ import Appointment from './data/Appointment';
 import Appointments from './pages/Appointments/Appointments';
 import {getDateOnly} from './Utils/Utils.js';
 import Parse from 'parse';
+import { CircularProgress } from '@material-ui/core';
+
 
 function App() {
  const [activeUser, setActiveUser] = useState(null);
- const [appointmentSt, setAppointmentSt] = useState(null);
- const [loading,setLoading] = useState(true);
+ const [jobArray, setJobArray] = useState([]);
+ const [employeeArray, setEmployeeArray] = useState([]);
+ //const [loading, setLoading] = useState(false);
 
   // let appointments = [
   //   new Appointment("1", "2021-01-19 08:34:56","c0m8khpWrn", "pMUKng8lhG", "המטופל הגיע עקב כאבי שיניים, לאחר בדיקה התגלה חור בשן 8 בצד ימין עליון. בוצעה עקירה", "", "2005-02-12 12:34:56"),
@@ -33,12 +36,63 @@ function App() {
   //   new Appointment("11", "2021-01-19 13:50:56","c0m8khpWrn", "2", "", "", "2005-02-22 12:34:56")
   // ]
 
-  // useEffect(()=>
-  // {
-  //   setAppointmentSt(appointments);
-  //   setLoading(false);
-  // },[]  );
 
+  useEffect(()=>{
+    let isCancelled = false;
+
+    // Prepare job array
+    async function getJobs(){
+      const job = Parse.Object.extend('job');
+      const jobQuery = new Parse.Query(job);
+      const JobList = await jobQuery.find();
+      
+      if (!isCancelled) {
+        let jobs = [];
+        JobList.forEach(item => {
+          const job =  
+            {  
+                jobId: item.id,
+                jobStr: item.get("job"),
+                jobHebrew: item.get("jobHebrew")
+            }
+            jobs = jobs.concat(job);
+        });
+        setJobArray(jobs); 
+      }
+      return true;
+    }
+
+    // Prepare doctors array
+    async function fetchEmployee() {
+      const userQuery = new Parse.Query(Parse.User);
+      userQuery.exists("jobId");
+      const employeeList = await userQuery.find();
+      
+      if (!isCancelled) { 
+        let employees = [];
+        employeeList.forEach(item => {
+          const employee =  
+            {  
+                doctorId: item.id,
+                fname: item.get("fname"),
+                lname: item.get("lname"),
+                jobId: item.get("jobId").id,
+            }
+            employees = employees.concat(employee);
+        });
+        setEmployeeArray(employees);
+      }
+      return true;
+    } 
+
+    getJobs();
+    fetchEmployee();
+
+    return () => {
+      isCancelled = true;
+    };
+
+  }, [])
 
   function handleLogout ()
   {
@@ -47,50 +101,36 @@ function App() {
   } 
   const handleLogin = (logedUser) => setActiveUser(logedUser);
 
-  function returnAppointment(appId)
-  {
-    const temp = [...appointmentSt];
-    temp[appId].pacientId = "";
-    setAppointmentSt(temp);
-  }
-
-  let activeUserAppoint = [];
-  let freeAppoint = [];
-  let doctorDailyAppointments = [];
-
-// if (!loading)
-// {
-//   const curdate = new Date();
-
-//    // activeUserAppoint = activeUser ? appointmentSt.filter(item=>item.pacientId === activeUser.id) : [];
-
-//    freeAppoint = appointmentSt.filter(item=>item.pacientId === "" &&  item.appDateTime >= curdate);
-
-//   //  doctorDailyAppointments = activeUser ? appointmentSt.filter(item=>item.doctorId === activeUser.id 
-//   //           && getDate(item.appDateTime).valueOf() === getDate(curdate).valueOf() && item.pacientId != "") : [];
-
-//   doctorDailyAppointments = activeUser ? appointmentSt.filter(item=>item.doctorId === activeUser.id 
-//              && item.appDateTime.valueOf() >= getDateOnly(curdate).valueOf() && item.pacientId != "") : [];
-
-// }
   return (
-
-    <>
-    <DentalNavBar   activeUser={activeUser} onLogout={handleLogout}/>
-    <div className="p-app">
-        <HashRouter>
-          <Switch>
-            <Route exact path="/"><HomePage  activeUser={activeUser} onLogin={handleLogin}/></Route>
-            <Route exact path="/personal"><PersonalArea activeUser={activeUser} appointments={appointmentSt} returnToList={returnAppointment}/></Route>
-            <Route exact path="/personal/:id"><PersonalArea activeUser={activeUser} returnToList={returnAppointment}/></Route>
-            <Route exact path="/appointments"><Appointments activeUser={activeUser} appointments={freeAppoint}  /></Route>
-            <Route exact path="/work"><WorkArea  activeUser={activeUser} appointments={doctorDailyAppointments} /></Route>
-            <Route exact path="/contactus"><ContactUs activeUser={activeUser}/></Route>
-            <Route exact path="/about"><About  activeUser={activeUser}/></Route>
-          </Switch>
-        </HashRouter>
-    </div>
-    </>
+//    (!loading) ? 
+    <>  
+    {console.log("jobArr  "+jobArray.length )} 
+      <DentalNavBar   activeUser={activeUser} onLogout={handleLogout}/>
+      <div className="p-app">
+          <HashRouter>
+            <Switch>
+              <Route exact path="/"><HomePage  activeUser={activeUser} onLogin={handleLogin}/></Route>
+              <Route exact path="/personal"><PersonalArea activeUser={activeUser} employeeArray={employeeArray}/></Route>
+              <Route exact path="/personal/:id"><PersonalArea activeUser={activeUser} employeeArray={employeeArray}/></Route>
+              <Route exact path="/appointments"><Appointments activeUser={activeUser} jobs={jobArray} employeeArray={employeeArray} /></Route>
+              <Route exact path="/appointments/:selectedJobHome"><Appointments activeUser={activeUser} jobs={jobArray} employeeArray={employeeArray} /></Route>
+              <Route exact path="/work"><WorkArea  activeUser={activeUser} /></Route>
+              <Route exact path="/contactus"><ContactUs activeUser={activeUser}/></Route>
+              <Route exact path="/about"><About  activeUser={activeUser}/></Route>
+            </Switch>
+          </HashRouter>
+      </div>
+    </>  
+    // :
+    // <> 
+    //   <CircularProgress
+    //             size={40}
+    //             left={-20}
+    //             top={10}
+    //             status={'loading'}
+    //             style={{marginLeft: '50%'}}
+    //             />
+    // </> 
   );
 }
 

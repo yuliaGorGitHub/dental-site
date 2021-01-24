@@ -1,7 +1,9 @@
+import { Grid } from "@material-ui/core";
 import { SignalCellularNoSimOutlined } from "@material-ui/icons";
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
 import LoginComponent from "../../components/LoginComponent/LoginComponent";
+import RedirectComponent from "../../components/LoginComponent/RedirectComponent/RedirectComponent";
 import "./HomePage.css"
 
 
@@ -29,7 +31,14 @@ function HomePage (props)
     return(
         <div className="p-home">
             <p>Home Page</p>
-            <LoginComponent activeUser={activeUser} onLogin={redirectOnLogin} />
+            <Grid container spacing={1}  >
+                <Grid container item xs={12} spacing={3}>
+                {/* <FormRow> */}
+                    <LoginComponent activeUser={activeUser} onLogin={redirectOnLogin} />
+                    <RedirectComponent activeUser={activeUser} />
+                    {/* </FormRow> */}
+                </Grid>
+            </Grid>
          </div>
     )
 }

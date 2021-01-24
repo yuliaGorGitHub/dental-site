@@ -75,13 +75,8 @@ function CollapsibleRow (props)
   
       
       function removeApp(id) {
-        returnToList(id-1);
+        returnToList(id);
       }
-
-
-    //   function addComment(id, comments) {
-    //     setShowModal(!showModal);
-    //   }
 
       function openModal(id)
       {
@@ -89,8 +84,6 @@ function CollapsibleRow (props)
         setShowModal();
       }
 
-      //debugger;
-      console.log(row);
     return (
 
         <>
@@ -145,7 +138,7 @@ function CollapsibleRow (props)
                 </TableCell>  
             </TableRow>  
 
-            <TableRow key={row.appDateTime} className={`${classes.right} ${index % 2 ? classes.even :  classes.odd}`}>
+            <TableRow  className={`${classes.right} ${index % 2 ? classes.even :  classes.odd}`}>
                 <TableCell key={index} className={`${classes.padding} ${classes.right}`} colSpan={5}>
                   <Collapse in={open} timeout="auto" unmountOnExit>
                     <Box margin={1}>
@@ -155,9 +148,6 @@ function CollapsibleRow (props)
                       <Table size="small">      
                         <TableBody>
                             <TableRow  key={index}>
-                            <TableCell key={index} component="th" scope="row"  align="right">
-                              {row.appStartTime}
-                              </TableCell>
                               <TableCell key={index} component="th" scope="row"  align="right">
                               {row.comments}
                               </TableCell>

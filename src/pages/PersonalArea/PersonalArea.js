@@ -5,23 +5,20 @@ import Parse from 'parse';
 import AppointmentsTable from "../../components/AppointmentsTable/AppointmentsTable";
 import "./PersonalArea.css"
 import Appointment from "../../data/Appointment";
+import { ContactSupportOutlined } from "@material-ui/icons";
 
 function PersonalArea (props)
 {
-    const {activeUser, returnToList} = props; 
+    //const {activeUser, employeeArray, returnToList} = props; 
 
+    const {activeUser, employeeArray} = props; 
     const [personAppointments, setPersonAppointments] = useState([]);
 
     const { id } = useParams();
 
     // let personAppointments = activeUser ? appointments.filter(item=>item.pacientId === activeUser.id) : [];
-    
-    // if (id) {
-    //     //personAppointments = activeUser ? appointments.filter(item=>item.pacientId === id) : [];
-    // }  
 
-
-    const viewBy = id != undefined ? id :( activeUser ? activeUser.id : "");
+    const viewBy = id ? {__type: "Pointer", className: "_User", objectId: id}  : Parse.User.current();
 
    useEffect(()=> {
          async function fetchData() {
@@ -29,27 +26,36 @@ function PersonalArea (props)
             const query = new Parse.Query(parseAppointment);
 
             query.exists("doctorId");
-            query.equalTo("pacientId", Parse.User.current());
-            //query.equalTo("pacientId", viewBy);
+            query.equalTo("pacientId", viewBy);
             query.addDescending("appDateTime");  
 
-            debugger;
-            const pAppointment = await query.find();
-            setPersonAppointments(pAppointment.map(appointment => new Appointment(appointment)));
-              
-            const newArray = [... personAppointments];
-            newArray.forEach(appointment => {
-                fetchDoctor(appointment);
-            })
+            const pAppointment = await query.find();            
+            const pacientAppointments = pAppointment.map(appointment => new Appointment(appointment));
+            // const appointmentsWithDoctorName = await fetchDoctor(pacientAppointments);
+            const appointmentsWithDoctorName = setDoctorName( pacientAppointments)
+            setPersonAppointments(appointmentsWithDoctorName);
         }
 
-            async function fetchDoctor( appointment) {
-    debugger;
-                const userQuery = new Parse.Query(Parse.User);
-                userQuery.equalTo("objectId", appointment.doctorId.id);
-                const doctor = await userQuery.get(appointment.doctorId.id) 
-                appointment.doctorName = doctor.get("fname")  +" "+ doctor.get("lname");                  
-        } 
+            // variant 1: get doctor name from db User table
+            async function fetchDoctor( appointments) {
+                for (const appointment of appointments) {
+                    const userQuery = new Parse.Query(Parse.User);
+                    const doctor = await userQuery.get(appointment.doctorId.id) 
+                    appointment.doctorName = doctor.get("fname")  +" "+ doctor.get("lname");
+                }
+                return appointments;
+            } 
+
+            // variant 2:  get doctor name from array after one fetch in App.js 
+            function setDoctorName( appointments) {
+                for (const appointment of appointments) {
+                    const doctor = employeeArray.find(item => item.doctorId === appointment.doctorId.id );
+                    appointment.doctorName = doctor.fname  +" "+ doctor.lname;
+                    console.log( appointment.doctorName);
+                }
+                return appointments;
+            }
+
 
     if (activeUser) {
         fetchData();
@@ -65,22 +71,43 @@ function PersonalArea (props)
     const history = personAppointments.filter(item => item.appDateTime < currentDate);
     const active = personAppointments.filter(item => item.appDateTime >= currentDate);
 
+    async function returnAppointment(appId)
+    {
+
+        const index = personAppointments.findIndex(item => item.id === appId);
+        let temp = [...personAppointments];
+        // remove appointment at index 'index' from array
+        temp.splice(index, 1);
+
+        const pAppointment = Parse.Object.extend('Appointment');
+        const query = new Parse.Query(pAppointment);
+        const pApp = await query.get(appId);
+
+        //pApp.set('pacientId', undefined);
+        pApp.set('pacientId', null);
+        pApp.set('updatedBy', Parse.User.current());
+        const savedApp = await pApp.save();
+
+        const updatedApp = new Appointment (savedApp);
+        setPersonAppointments(temp);
+    }
+
+
 
     return(
         <>
            <h3>שלום   { activeUser ? activeUser.fname : ""}</h3>
            <h4>{ id ? " הדף של מטופל " + id : ""}</h4>
 
-            <p>Personal Area</p>
             {active && active.length > 0 ? 
-            <AppointmentsTable appointments={active}  fromScreen="pActive"  returnToList={returnToList} />
+            <AppointmentsTable appointments={active}  fromScreen="pActive"  returnToList={returnAppointment} />
             : <p>אין לך תורים עתידיים</p>}
 
 
             <h4>הסטוריית ביקורים </h4>
 
             { history && history.length > 0 ?
-            <AppointmentsTable appointments={history}  fromScreen="pHistory"  returnToList={returnToList} />
+            <AppointmentsTable appointments={history}  fromScreen="pHistory"  returnToList={returnAppointment} />
             : <p>אין לך הסטורייה לצפייה</p>}
 
         </>
