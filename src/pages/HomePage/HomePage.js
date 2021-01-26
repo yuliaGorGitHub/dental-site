@@ -29,7 +29,7 @@ function HomePage (props)
 
     return(
         <div className="p-home">
-            <p>Home Page</p>
+            {/* <p>Home Page</p> */}
             <Grid container spacing={1}  >
                 <Grid container item xs={12} spacing={3}>
                 {/* <FormRow> */}
