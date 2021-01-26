@@ -9,9 +9,9 @@ import { ContactSupportOutlined } from "@material-ui/icons";
 
 function PersonalArea (props)
 {
-    //const {activeUser, employeeArray, returnToList} = props; 
+    //const {activeUser, employees, returnToList} = props; 
 
-    const {activeUser, employeeArray} = props; 
+    const {activeUser, employees} = props; 
     const [personAppointments, setPersonAppointments] = useState([]);
 
     const { id } = useParams();
@@ -49,7 +49,7 @@ function PersonalArea (props)
             // variant 2:  get doctor name from array after one fetch in App.js 
             function setDoctorName( appointments) {
                 for (const appointment of appointments) {
-                    const doctor = employeeArray.find(item => item.doctorId === appointment.doctorId.id );
+                    const doctor = employees.find(item => item.doctorId === appointment.doctorId.id );
                     appointment.doctorName = doctor.fname  +" "+ doctor.lname;
                     console.log( appointment.doctorName);
                 }

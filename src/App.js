@@ -111,10 +111,10 @@ function App() {
           <HashRouter>
             <Switch>
               <Route exact path="/"><HomePage  activeUser={activeUser} onLogin={handleLogin}/></Route>
-              <Route exact path="/personal"><PersonalArea activeUser={activeUser} employeeArray={employeeArray}/></Route>
-              <Route exact path="/personal/:id"><PersonalArea activeUser={activeUser} employeeArray={employeeArray}/></Route>
+              <Route exact path="/personal"><PersonalArea activeUser={activeUser} employees={employeeArray}/></Route>
+              <Route exact path="/personal/:id"><PersonalArea activeUser={activeUser} employees={employeeArray}/></Route>
               <Route exact path="/appointments"><Appointments activeUser={activeUser} jobs={jobArray} employees={employeeArray} /></Route>
-              <Route exact path="/appointments/:selectedJobHome"><Appointments activeUser={activeUser} jobs={jobArray} employeeArray={employeeArray} /></Route>
+              <Route exact path="/appointments/:selectedJobHome"><Appointments activeUser={activeUser} jobs={jobArray} employees={employeeArray} /></Route>
               <Route exact path="/work"><WorkArea  activeUser={activeUser} /></Route>
               <Route exact path="/contactus"><ContactUs activeUser={activeUser}/></Route>
               <Route exact path="/about"><About  activeUser={activeUser}/></Route>

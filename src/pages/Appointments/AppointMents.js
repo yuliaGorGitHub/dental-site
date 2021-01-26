@@ -117,13 +117,13 @@ function Appointments (props)
           });
         }
         
-        if(jobs.length > 0)
+        if(jobs.length > 0 && employees.length > 0)
         {
           selectedJobHome ? setSelectedJob(selectedJobHome) : setSelectedJob(jobs[0].jobId);
           fetchData();
         }
 
-    },[jobs]);
+    },[jobs, employees]);
 
     function getAppointmentsByJob(appointments) 
     {
@@ -153,7 +153,8 @@ function Appointments (props)
       return temp;
     }
 
-    const appointmentsToDisplay = getAppointmentsByJob(freeAppointments);
+
+    const appointmentsToDisplay = freeAppointments.length === 0 ? [] : getAppointmentsByJob(freeAppointments);
 
     async function takeAnAppointment()
     {
@@ -326,7 +327,7 @@ function Appointments (props)
   };
 
 
-  const employeesBySelectedType = employees.filter(item => item.jobId === selectedJob);
+  const employeesBySelectedType = freeAppointments.length === 0 ? [] : employees.filter(item => item.jobId === selectedJob);
 
   function HandleStart() 
   {
