@@ -76,6 +76,7 @@ function App() {
                 doctorId: item.id,
                 fname: item.get("fname"),
                 lname: item.get("lname"),
+                fullName: item.get("fname") + " " + item.get("lname"),
                 jobId: item.get("jobId").id,
             }
             employees = employees.concat(employee);
@@ -112,7 +113,7 @@ function App() {
               <Route exact path="/"><HomePage  activeUser={activeUser} onLogin={handleLogin}/></Route>
               <Route exact path="/personal"><PersonalArea activeUser={activeUser} employeeArray={employeeArray}/></Route>
               <Route exact path="/personal/:id"><PersonalArea activeUser={activeUser} employeeArray={employeeArray}/></Route>
-              <Route exact path="/appointments"><Appointments activeUser={activeUser} jobs={jobArray} employeeArray={employeeArray} /></Route>
+              <Route exact path="/appointments"><Appointments activeUser={activeUser} jobs={jobArray} employees={employeeArray} /></Route>
               <Route exact path="/appointments/:selectedJobHome"><Appointments activeUser={activeUser} jobs={jobArray} employeeArray={employeeArray} /></Route>
               <Route exact path="/work"><WorkArea  activeUser={activeUser} /></Route>
               <Route exact path="/contactus"><ContactUs activeUser={activeUser}/></Route>

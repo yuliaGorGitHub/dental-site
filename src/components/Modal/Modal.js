@@ -48,7 +48,8 @@ const useStyles = makeStyles(theme => ({
     },
     space: {
         display: `flex`,
-        justifyContent: `space-around`,
+        // justifyContent: `space-around`,
+        justifyContent: `center`,
         paddingTop: 20,
         paddingBottom: 20, 
     },
@@ -122,13 +123,15 @@ export default function Modal( { handleClose, handleComment, show, children }) {
 
                     </form>
                     <div className={classes.space}>
-                    <Button  variant="contained"  color="primary" onClick={closeModal} m="2rem">
-                      Close
-                    </Button>           
 
-                    <Button variant="contained" color="primary" onClick={handleAddComment}>
-                      Save
-                    </Button> 
+                        <Button  variant="contained"  color="primary" onClick={closeModal} m="2rem">
+                        Close
+                        </Button>           
+                        <div  style={{ width:"30px"}}></div>
+                        <Button variant="contained" color="primary" onClick={handleAddComment}>
+                        Save
+                        </Button> 
+
                     </div>                                 
                 </div>
 

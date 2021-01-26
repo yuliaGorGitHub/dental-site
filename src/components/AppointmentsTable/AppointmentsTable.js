@@ -16,7 +16,7 @@ import { DepartureBoardOutlined } from '@material-ui/icons';
 
 function AppointmentsTable (props)
 {
-    const {appointments,fromScreen, returnToList, setShowModal, setSelectedRow} = props;
+    const {appointments,fromScreen, returnToList, takeApp, setShowModal, setSelectedRow} = props;
 
     const [page, setPage] = React.useState(0);  
     const [rowsPerPage, setRowsPerPage] = React.useState(3);  
@@ -79,7 +79,7 @@ function AppointmentsTable (props)
               <TableBody>  
                   {appointments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {  
                       return (  
-                        <CollapsibleRow fromScreen={fromScreen} returnToList={returnToList} row={row} index={index} setShowModal={setShowModal}  setSelectedRow={setSelectedRow}/>
+                        <CollapsibleRow fromScreen={fromScreen} returnToList={returnToList} takeApp={takeApp} row={row} index={index} setShowModal={setShowModal}  setSelectedRow={setSelectedRow}/>
                       );  
                   })}  
               </TableBody>  

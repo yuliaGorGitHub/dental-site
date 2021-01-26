@@ -1,5 +1,4 @@
 import { Grid } from "@material-ui/core";
-import { SignalCellularNoSimOutlined } from "@material-ui/icons";
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
 import LoginComponent from "../../components/LoginComponent/LoginComponent";

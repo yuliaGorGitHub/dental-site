@@ -20,7 +20,7 @@ function WorkArea (props)
         async function fetchData() {
            const parseAppointment = Parse.Object.extend('Appointment');
            const query = new Parse.Query(parseAppointment);
-           query.exists("pacientId");
+           query.notEqualTo("pacientId",null);
            query.equalTo("doctorId", Parse.User.current());
            query.addAscending("appDateTime");  
            const pAppointment = await query.find();
@@ -61,9 +61,8 @@ function WorkArea (props)
         if( workerAppointments.length > 0)
         {
             const getSelectedRow = workerAppointments.find(item => item.id === selectedRow);
-            return getCommentFromSelectedRow = getSelectedRow == undefined ? "" : getSelectedRow.comments.replace('/\n/g', '&#13;&#10;');
+            return getCommentFromSelectedRow = getSelectedRow == undefined ? "" :  getSelectedRow.comments == undefined ? "" : getSelectedRow.comments.replace('/\n/g', '&#13;&#10;');
         }
-
     }
     
     // if selected row was not changed that comment not needed to be changed also
@@ -72,7 +71,6 @@ function WorkArea (props)
     function getIndexOfSelected(selectedRow)
     {
         return workerAppointments.findIndex(item => item.id === selectedRow);
-
     } 
 
     async function addComment(comment) 

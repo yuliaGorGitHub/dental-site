@@ -19,7 +19,7 @@ import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 
 function CollapsibleRow (props)
 {
-    const {appointments,fromScreen, returnToList, row, index, setShowModal, setSelectedRow} = props;
+    const {appointments,fromScreen, returnToList, takeApp, row, index, setShowModal, setSelectedRow} = props;
 
     const [open, setOpen] = React.useState(false);
    
@@ -95,7 +95,9 @@ function CollapsibleRow (props)
                 <TableCell key={index} className={`${classes.padding} ${classes.right}`} value={row.id}>
                 {
                     (fromScreen === "appoint") ?                                 
-                    <IconButton edge="start"  color="inherit"  aria-label="create" dir="rtl" className={classes.padding}  value={row.id} >
+                    <IconButton edge="start"  color="inherit"  aria-label="create" dir="rtl" className={classes.padding}  value={row.id} 
+                                onClick={() => takeApp(row.id)}
+                                >
                         <HowToRegIcon fontSize="small" color="primary" />
                     </IconButton >   
                     :  (fromScreen === "work"  ?
