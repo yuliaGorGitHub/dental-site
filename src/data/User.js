@@ -4,6 +4,7 @@ class User
 {
     constructor(parseUser, job) 
     {
+        //debugger;
         this.id = parseUser.id;
         this.tzeut = parseUser.get("tzeut");
         this.pwd = parseUser.get("pwd");        

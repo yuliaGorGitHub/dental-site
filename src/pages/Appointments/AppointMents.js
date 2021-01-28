@@ -25,7 +25,7 @@ import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
-import RedirectComponent from "../../components/LoginComponent/RedirectComponent/RedirectComponent";
+import RedirectComponent from "../../components/RedirectComponent/RedirectComponent";
 import { getDateOnly } from "../../Utils/Utils";
 
 //import { AccordionActions, Button, Divider } from '@material-ui/core';
@@ -35,27 +35,28 @@ import { getDateOnly } from "../../Utils/Utils";
 function Appointments (props)
 {
 
-    const {activeUser, jobs, employees} = props;
+    const {jobs, employees, activeUser} = props;
+//debugger;
+//console.log(Parse.User.current());
+
+    //const [activeUser,setActiveUser] = useState(Parse.User.current() ? new User(Parse.User.current(), "") : null);
+    //const [activeUser,setActiveUser] = useState(Parse.User.current() ? new User(Parse.User.current(), "") : null);
+    console.log(activeUser);
     const [freeAppointments, setFreeAppointments] = useState([]);  
     const [selectedJob, setSelectedJob] = useState("");
     const [selectedDoctor, setSelectedDoctor] = useState("");
     // const [selectedBirthDate, setSelectedBirthDate] = useState(new Date());
     const [selectedBirthDate, setSelectedBirthDate] = useState("");
     const [zeutInput, setZeutInput] = useState("");
+    const [expandedPanel, setExpandedPanel] = useState(false);
     const [panel1Filled, setPanel1Filled] = useState(false);
     const [panel1Hide, setPanel1Hide] = useState(false);
     const [panel2Hide, setPanel2Hide] = useState(false);
     const [panel3Hide, setPanel3Hide] = useState(false);
     const [selectedApp, setSelectedApp] = useState("");
     const [doRedirect, setDoRedirect] = useState(false);
-    const [currentUser, setCurrentUser] = useState("");
+    const [redirectTo, setRedirectTo] = useState("");
     
-
-
-    // if (doRedirect && !activeUser)
-    // {
-    //   return <Redirect to="/RegistrationPage"/>
-    // }
 
 
     const handleDateChange = (date) => {
@@ -67,11 +68,11 @@ function Appointments (props)
         setPanel1Filled(false);
     };
 
-    function inputZeutHandle(e)
-    {
-        setZeutInput(e.target.value);
-      // setShowWarning(false);
-    }
+    // function inputZeutHandle(e)
+    // {
+    //     setZeutInput(e.target.value);
+    //   // setShowWarning(false);
+    // }
 
     function handleStage1() 
     {
@@ -158,7 +159,7 @@ function Appointments (props)
 
     async function takeAnAppointment()
     {
-      //const isRegistered = isRegisteredUser();
+      const isRegistered = isRegisteredUser();
 
         const index = freeAppointments.findIndex(item => item.id === selectedApp);
         let temp = [...freeAppointments];
@@ -171,24 +172,34 @@ function Appointments (props)
 
         pApp.set('pacientId', Parse.User.current());
         pApp.set('updatedBy',Parse.User.current());
-        const savedApp = await pApp.save();
+        // const savedApp = await pApp.save();
 
-        const updatedApp = new Appointment (savedApp);
+        // const updatedApp = new Appointment (savedApp);
         setFreeAppointments(temp);
 
     }
 
     async function isRegisteredUser()
     {
+      debugger;
+      if(activeUser && activeUser.tzeut === zeutInput)
+        return true;
+
       const userQuery = new Parse.Query(Parse.User);
       userQuery.equalTo("tzeut", zeutInput); 
      // userQuery.equalTo("birthdate", getDateOnly(selectedBirthDate)); 
       const currUser = await userQuery.find();
       if (currUser.length !== 0)
       {
+        debugger;
+          setRedirectTo("/");
+        //console.log(Parse.User.current());
         //setCurrentUser(new User(currUser, ""));
       }
-
+      else
+      {
+        setRedirectTo("/RegistrationPage");
+      }
       return (currUser.length !== 0);
     }
 
@@ -222,6 +233,10 @@ function Appointments (props)
 
     const classes = useStyles();
 
+    if (doRedirect && redirectTo !== "")
+    {
+      return <Redirect to="/RegistrationPage"/>
+    }
 
   const StyledButton = withStyles({
     root: {
@@ -318,9 +333,6 @@ function Appointments (props)
   }))(MuiAccordionDetails);
 
 
-
-  const [expandedPanel, setExpandedPanel] = useState(false);
-
   const handleAccordionChange = (panel) => (event, isExpanded) => {
    // console.log({ event, isExpanded });
     setExpandedPanel(isExpanded ? panel : false);
@@ -349,7 +361,10 @@ function Appointments (props)
     const clNamePanel2 = panel2Hide ? classes.hide : classes.paper;
     const clNamePanel3 = panel3Hide ? classes.hide : classes.paper;
     
-
+//  debugger;
+//  console.log(Parse.User.current());
+// const activeUser = new User(Parse.User);
+  // console.log(activeUser);
     return(
         <>
             {/* <h1>שלום   { (activeUser) ? activeUser.fname : "no user"}</h1> */}
@@ -460,7 +475,7 @@ function Appointments (props)
 
                       {/* <StylesProvider jss={jss}> */}
                         <Grid item xs={12}  dir="rtl">                   
-                            <TextField  fullWidth label="ת.ז. של בעל התור *"  value={zeutInput} name="tzeut" size="small" variant="outlined" onChange={inputZeutHandle} />
+                            <TextField  fullWidth label="ת.ז. של בעל התור *"  value={zeutInput} name="tzeut" size="small" variant="outlined"  onChange={e => setZeutInput(e.target.value)} />
                         </Grid>
                       {/* </StylesProvider>                    */}
 
@@ -485,16 +500,18 @@ function Appointments (props)
                   </AccordionSummary>
                     <AccordionDetails>
   
+                    { activeUser ? 
                     <Grid item xs={12} className={classes.margin} align="right">
                       <Grid item xs={12} className={classes.margin} align="right">
                         <h5 >כדי שנוכל לתאם את התור עבורך אנא אשר את הפרטים:</h5>     
-                        <p> ת.ז של בעל התור: {currentUser.tzeut}</p>  
-                        <p> תאריך לידה: {currentUser.birthdate}</p> 
-                        <p> שם פרטי: {currentUser.fname}</p> 
-                        <p> שם משפחה: {currentUser.lname}</p> 
-                      </Grid>
- 
-                    </Grid>             
+                         {/* <p> ת.ז של בעל התור: {activeUser.tzeut}</p>   */}
+                       {/* <p> תאריך לידה: {activeUser.birthdate}</p> */}
+                        {/* <p> שם פרטי: {activeUser.fname}</p> 
+                        <p> שם משפחה: {activeUser.lname}</p>   */}
+                      </Grid> 
+                    </Grid> 
+                     : 
+                    <> </> }          
                     </AccordionDetails>
                     <AccordionActions>
                     <Grid item xs={12}> 

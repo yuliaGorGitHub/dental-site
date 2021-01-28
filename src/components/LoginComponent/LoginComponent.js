@@ -69,7 +69,7 @@ function LoginComponent (props)
 
     const useStyles = makeStyles((theme) => ({
         root: {
-            maxWidth: 345,
+            maxWidth: 350,
             [theme.breakpoints.down("md")] : {
                 maxWidth: 280
             },
@@ -83,17 +83,13 @@ function LoginComponent (props)
             borderTopRightRadius: "25px",
         },
 
-        right: {
-            display: `flex`,
-            justifyContent: `space-around`
-        }
   }));
 
     const classes = useStyles(); 
 
     return (
         <Container className={`${classes.container} ${classes.root}`} >
-            <h3>כניסה למטופל</h3>
+            <h2>כניסה למטופל</h2>
             <form>
                 <Grid container spacing={3} className={classes.right}>
                     <Grid item xs={12}>
