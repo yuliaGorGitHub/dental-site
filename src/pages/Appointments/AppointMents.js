@@ -40,13 +40,12 @@ function Appointments (props)
 //console.log(Parse.User.current());
 
     //const [activeUser,setActiveUser] = useState(Parse.User.current() ? new User(Parse.User.current(), "") : null);
-    //const [activeUser,setActiveUser] = useState(Parse.User.current() ? new User(Parse.User.current(), "") : null);
     console.log(activeUser);
     const [freeAppointments, setFreeAppointments] = useState([]);  
     const [selectedJob, setSelectedJob] = useState("");
     const [selectedDoctor, setSelectedDoctor] = useState("");
     // const [selectedBirthDate, setSelectedBirthDate] = useState(new Date());
-    const [selectedBirthDate, setSelectedBirthDate] = useState("");
+    const [selectedBirthDate, setSelectedBirthDate] = useState(null);
     const [zeutInput, setZeutInput] = useState("");
     const [expandedPanel, setExpandedPanel] = useState(false);
     const [panel1Filled, setPanel1Filled] = useState(false);
@@ -89,13 +88,14 @@ function Appointments (props)
 
     function handleStage3()
     {
-
       setPanel3Hide(true);
       setExpandedPanel('panel4');
-      const currentUser = isRegisteredUser();
-      console.log("currentUser  " + currentUser);
-      if(!currentUser)
-        setDoRedirect(true);
+      isRegisteredUser();
+      debugger;
+      // console.log("currentUser  " + currentUser);
+      // if(!currentUser)
+      //   setDoRedirect(true);
+      takeAnAppointment();
     }
 
 
@@ -159,8 +159,8 @@ function Appointments (props)
 
     async function takeAnAppointment()
     {
-      const isRegistered = isRegisteredUser();
-
+      //const isRegistered = isRegisteredUser();
+        isRegisteredUser();
         const index = freeAppointments.findIndex(item => item.id === selectedApp);
         let temp = [...freeAppointments];
         // remove appointment at index 'index' from array
@@ -183,31 +183,33 @@ function Appointments (props)
     {
       debugger;
       if(activeUser && activeUser.tzeut === zeutInput)
-        return true;
+        return;
 
       const userQuery = new Parse.Query(Parse.User);
       userQuery.equalTo("tzeut", zeutInput); 
      // userQuery.equalTo("birthdate", getDateOnly(selectedBirthDate)); 
       const currUser = await userQuery.find();
+      debugger;
       if (currUser.length !== 0)
       {
-        debugger;
           setRedirectTo("/");
         //console.log(Parse.User.current());
         //setCurrentUser(new User(currUser, ""));
       }
       else
       {
-        setRedirectTo("/RegistrationPage");
+        setRedirectTo("/signup");
       }
-      return (currUser.length !== 0);
+      debugger;
+      //return (currUser.length !== 0);
+      setDoRedirect(true);
     }
 
 
 
     const useStyles = makeStyles((theme) => ({
       paper: {
-        padding: theme.spacing(1),
+        // padding: theme.spacing(1),
         textAlign: "center",
         color: theme.palette.text.primary,
       },
@@ -233,9 +235,13 @@ function Appointments (props)
 
     const classes = useStyles();
 
-    if (doRedirect && redirectTo !== "")
+    if (doRedirect)
     {
-      return <Redirect to="/RegistrationPage"/>
+      // if(redirectTo === "")
+      //   return <Redirect to="/signup"/>
+      // else
+      debugger;
+        return <Redirect to={redirectTo}/>
     }
 
   const StyledButton = withStyles({
@@ -307,7 +313,8 @@ function Appointments (props)
     root: {
 //      backgroundColor: '#21CFFF',
  //     backgroundColor: 'transparent',
-      backgroundColor: 'inherit',
+      // backgroundColor: 'inherit',
+      backgroundColor: 'white',
 //      borderBottom: '1px solid #12738E',
       marginBottom: -1,
  //     color: '#666666',
@@ -365,12 +372,12 @@ function Appointments (props)
 //  console.log(Parse.User.current());
 // const activeUser = new User(Parse.User);
   // console.log(activeUser);
-    return(
+    return (
         <>
             {/* <h1>שלום   { (activeUser) ? activeUser.fname : "no user"}</h1> */}
 
 
-            <Grid container justify="space-around" spacing={3} >
+            <Grid container justify="space-around" >
             {/*   From 0 to 600px wide (smart-phones), I take up 12 columns, or the whole device width!
                   From 600-690px wide (tablets), I take up 6 out of 12 columns, so 2 columns fit the screen.
                   From 960px wide and above, I take up 25% of the device (3/12), so 4 columns fit the screen. */}
@@ -398,8 +405,8 @@ function Appointments (props)
                   <Grid item xs={12} className={classes.paper}> 
                   {jobs.length > 0 ?
                     <div className={classes.margin}>             
-                            <span>סוג התור המבוקש    </span>
-                            <CustomSelect arr={jobs} selectedItem={selectedJob}  idKey={"jobId"} valueKey={"jobHebrew"} handleSelected={setSelectedJob} all=""/>
+                      <span>סוג התור המבוקש    </span>
+                      <CustomSelect arr={jobs} selectedItem={selectedJob}  idKey={"jobId"} valueKey={"jobHebrew"} handleSelected={setSelectedJob} all=""/>
                     </div>
                     : <></>}
                   <div className={classes.margin}> 
@@ -410,6 +417,8 @@ function Appointments (props)
                       value={selectedBirthDate}
                       onChange={handleDateChange}
                       maxwidth={40}
+                      aria-required="true" 
+                      aria-invalid="false"
                     />
                   </MuiPickersUtilsProvider>
                   </div>
@@ -473,15 +482,11 @@ function Appointments (props)
                         <p>אנא מלאו את הפרטים הבאים</p>  
                       </Grid> 
 
-                      {/* <StylesProvider jss={jss}> */}
                         <Grid item xs={12}  dir="rtl">                   
                             <TextField  fullWidth label="ת.ז. של בעל התור *"  value={zeutInput} name="tzeut" size="small" variant="outlined"  onChange={e => setZeutInput(e.target.value)} />
                         </Grid>
-                      {/* </StylesProvider>                    */}
 
                     </AccordionDetails>
-
-                    {/* <Divider /> */}
                     <AccordionActions>
                     <Grid item xs={12}> 
                         <Button size="small" variant="contained" disabled={zeutInput===""} color="primary" onClick={handleStage3}>
