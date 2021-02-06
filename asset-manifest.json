@@ -1,22 +1,23 @@
 {
   "files": {
-    "main.css": "/dental-site/static/css/main.101475a1.chunk.css",
-    "main.js": "/dental-site/static/js/main.a14c6a00.chunk.js",
-    "main.js.map": "/dental-site/static/js/main.a14c6a00.chunk.js.map",
-    "runtime-main.js": "/dental-site/static/js/runtime-main.672f80ac.js",
-    "runtime-main.js.map": "/dental-site/static/js/runtime-main.672f80ac.js.map",
-    "static/js/2.bd4f16da.chunk.js": "/dental-site/static/js/2.bd4f16da.chunk.js",
-    "static/js/2.bd4f16da.chunk.js.map": "/dental-site/static/js/2.bd4f16da.chunk.js.map",
-    "static/js/3.557769dc.chunk.js": "/dental-site/static/js/3.557769dc.chunk.js",
-    "static/js/3.557769dc.chunk.js.map": "/dental-site/static/js/3.557769dc.chunk.js.map",
+    "main.css": "/dental-site/static/css/main.a3775a17.chunk.css",
+    "main.js": "/dental-site/static/js/main.c5bfa8d6.chunk.js",
+    "main.js.map": "/dental-site/static/js/main.c5bfa8d6.chunk.js.map",
+    "runtime-main.js": "/dental-site/static/js/runtime-main.954d40bd.js",
+    "runtime-main.js.map": "/dental-site/static/js/runtime-main.954d40bd.js.map",
+    "static/js/2.504e73d0.chunk.js": "/dental-site/static/js/2.504e73d0.chunk.js",
+    "static/js/2.504e73d0.chunk.js.map": "/dental-site/static/js/2.504e73d0.chunk.js.map",
+    "static/js/3.8b125508.chunk.js": "/dental-site/static/js/3.8b125508.chunk.js",
+    "static/js/3.8b125508.chunk.js.map": "/dental-site/static/js/3.8b125508.chunk.js.map",
     "index.html": "/dental-site/index.html",
-    "static/css/main.101475a1.chunk.css.map": "/dental-site/static/css/main.101475a1.chunk.css.map",
-    "static/js/2.bd4f16da.chunk.js.LICENSE.txt": "/dental-site/static/js/2.bd4f16da.chunk.js.LICENSE.txt"
+    "static/css/main.a3775a17.chunk.css.map": "/dental-site/static/css/main.a3775a17.chunk.css.map",
+    "static/js/2.504e73d0.chunk.js.LICENSE.txt": "/dental-site/static/js/2.504e73d0.chunk.js.LICENSE.txt",
+    "static/media/background.cd8c9d24.jpg": "/dental-site/static/media/background.cd8c9d24.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.672f80ac.js",
-    "static/js/2.bd4f16da.chunk.js",
-    "static/css/main.101475a1.chunk.css",
-    "static/js/main.a14c6a00.chunk.js"
+    "static/js/runtime-main.954d40bd.js",
+    "static/js/2.504e73d0.chunk.js",
+    "static/css/main.a3775a17.chunk.css",
+    "static/js/main.c5bfa8d6.chunk.js"
   ]
 }
